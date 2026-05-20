@@ -15,3 +15,7 @@ myLazyRAG/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
+
+## 分支练习记录
+
+本项目使用 main、dev、feature 分支进行基础版本管理练习。
