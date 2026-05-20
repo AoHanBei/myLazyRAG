@@ -1,7 +1,13 @@
-from lazyllm import Document, Retriever
+from typing import Any
 
 
-def create_retriever(path: str, query: str):
+def _load_lazyllm_rag():
+    from lazyllm import Document, Retriever
+
+    return Document, Retriever
+
+
+def create_retriever(path: str, query: str) -> list[Any]:
     """
     创建并执行检索。
 
@@ -12,8 +18,10 @@ def create_retriever(path: str, query: str):
     Returns:
         list: 检索结果。
     """
-    doc = Document(path)
-    retriever = Retriever(
+    document_cls, retriever_cls = _load_lazyllm_rag()
+
+    doc = document_cls(path)
+    retriever = retriever_cls(
         doc,
         group_name="CoarseChunk",
         similarity="bm25_chinese",

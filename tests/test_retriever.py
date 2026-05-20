@@ -28,8 +28,11 @@ def test_create_retriever_returns_results(monkeypatch):
             calls["query"] = query
             return [FakeResult("这是一个测试检索结果，包含北京奥运会。")]
 
-    monkeypatch.setattr(retriever_module, "Document", FakeDocument)
-    monkeypatch.setattr(retriever_module, "Retriever", FakeRetriever)
+    monkeypatch.setattr(
+        retriever_module,
+        "_load_lazyllm_rag",
+        lambda: (FakeDocument, FakeRetriever),
+    )
 
     results = create_retriever("./data_kb", "为我介绍一下北京奥运会")
 
@@ -54,8 +57,11 @@ def test_create_retriever_empty_query_returns_list(monkeypatch):
         def __call__(self, query):
             return []
 
-    monkeypatch.setattr(retriever_module, "Document", FakeDocument)
-    monkeypatch.setattr(retriever_module, "Retriever", FakeRetriever)
+    monkeypatch.setattr(
+        retriever_module,
+        "_load_lazyllm_rag",
+        lambda: (FakeDocument, FakeRetriever),
+    )
 
     results = create_retriever("./data_kb", "")
 
