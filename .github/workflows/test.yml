@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
@@ -23,11 +23,12 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
 
-      - name: Run code checks
+      - name: Run code style checks
         run: |
           black --check .
           flake8 .
 
       - name: Run tests
         run: |
+          export PYTHONPATH=${PWD}:$PYTHONPATH
           pytest --cov=RAGproject --cov-report=term-missing
